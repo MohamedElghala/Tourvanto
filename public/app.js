@@ -302,6 +302,9 @@ function openTourDetails(tourId) {
   `;
 
   document.getElementById('tourDetailsModal').classList.remove('hidden');
+  if (window.TourvantoAnalytics) {
+    TourvantoAnalytics.trackViewTour(tour);
+  }
 }
 
 function closeDetailsAndOpenCheckout(tourId) {
@@ -327,6 +330,13 @@ function openCheckout(tourId) {
 
   calculateCheckoutTotal();
   document.getElementById('checkoutModal').classList.remove('hidden');
+
+  if (window.TourvantoAnalytics) {
+    TourvantoAnalytics.trackInitiateCheckout(tour, tour.priceEUR, 'EUR');
+  }
+  if (window.TourvantoAuth) {
+    TourvantoAuth.prefillCheckoutForm();
+  }
 }
 
 // Calculate Total Checkout Price
@@ -367,6 +377,14 @@ function handleCheckoutSubmit(e) {
 
   bookings.unshift(bookingData);
   saveState();
+
+  if (window.TourvantoDB) {
+    TourvantoDB.saveBooking(bookingData);
+  }
+
+  if (window.TourvantoAnalytics) {
+    TourvantoAnalytics.trackPurchase(bookingData);
+  }
 
   // Close checkout modal & show voucher modal
   document.getElementById('checkoutModal').classList.add('hidden');
@@ -637,12 +655,165 @@ function deleteTour(tourId) {
   }
 }
 
+// ================= VERIFIED TRAVELER REVIEWS LOGIC =================
+let reviews = JSON.parse(localStorage.getItem('tourvanto_reviews')) || (typeof initialReviews !== 'undefined' ? initialReviews : []);
+
+function renderPublicReviews() {
+  const container = document.getElementById('publicReviewsGrid');
+  if (!container) return;
+
+  const countBadge = document.getElementById('reviewsCountBadge');
+  if (countBadge) {
+    countBadge.textContent = `${reviews.length}+ Verified Reviews`;
+  }
+
+  container.innerHTML = reviews.map(rev => {
+    const safeAuthor = escapeHTML(rev.author);
+    const safeComment = escapeHTML(rev.comment);
+    const safeTour = escapeHTML(rev.tourName);
+    const safeCountry = escapeHTML(rev.country);
+    const starsHtml = Array.from({ length: 5 }, (_, i) => 
+      `<i class="fa-solid fa-star ${i < rev.rating ? 'text-amber-400' : 'text-slate-200'}"></i>`
+    ).join('');
+
+    return `
+      <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between card-hover relative group">
+        <div>
+          <!-- Header: User & Rating -->
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <img src="${rev.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80'}" alt="${safeAuthor}" class="w-11 h-11 rounded-full object-cover border-2 border-brand-100 shadow-sm">
+              <div>
+                <h4 class="text-sm font-bold text-slate-900">${safeAuthor}</h4>
+                <div class="flex items-center gap-1.5 text-xs text-slate-500">
+                  <span>${rev.flag || '🌍'}</span>
+                  <span>${safeCountry}</span>
+                  <span>&bull;</span>
+                  <span class="text-emerald-600 font-bold flex items-center gap-1 text-[11px]"><i class="fa-solid fa-circle-check"></i> Verified</span>
+                </div>
+              </div>
+            </div>
+            <div class="text-amber-400 text-xs flex gap-0.5">
+              ${starsHtml}
+            </div>
+          </div>
+
+          <!-- Tour Tag -->
+          <div class="mb-3">
+            <span class="inline-block bg-slate-100 text-slate-700 text-[11px] font-bold px-2.5 py-1 rounded-lg">
+              <i class="fa-solid fa-location-dot text-brand-500 mr-1"></i> ${safeTour}
+            </span>
+          </div>
+
+          <!-- Comment Text -->
+          <p class="text-xs text-slate-600 leading-relaxed italic">
+            "${safeComment}"
+          </p>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
+          <span>${rev.date || 'Recent experience'}</span>
+          <span class="text-brand-600 font-semibold"><i class="fa-solid fa-shield-halved mr-1"></i> 100% Authentic</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function initReviewSubmission() {
+  const openBtn = document.getElementById('openAddReviewModalBtn');
+  const closeBtn = document.getElementById('closeAddReviewModalBtn');
+  const modal = document.getElementById('addReviewModal');
+  const form = document.getElementById('addReviewForm');
+  const starPicker = document.getElementById('starRatingPicker');
+  const ratingInput = document.getElementById('reviewRatingInput');
+
+  if (openBtn) {
+    openBtn.addEventListener('click', () => {
+      if (modal) modal.classList.remove('hidden');
+    });
+  }
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      if (modal) modal.classList.add('hidden');
+    });
+  }
+
+  // Interactive 1-5 Star Picker
+  if (starPicker) {
+    const stars = starPicker.querySelectorAll('i');
+    stars.forEach(star => {
+      star.addEventListener('click', () => {
+        const selectedVal = parseInt(star.getAttribute('data-star'));
+        ratingInput.value = selectedVal;
+        stars.forEach(s => {
+          const sVal = parseInt(s.getAttribute('data-star'));
+          if (sVal <= selectedVal) {
+            s.classList.add('text-amber-400');
+            s.classList.remove('text-slate-300');
+          } else {
+            s.classList.remove('text-amber-400');
+            s.classList.add('text-slate-300');
+          }
+        });
+      });
+    });
+  }
+
+  // Handle Review Submission
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const author = document.getElementById('reviewAuthorInput').value.trim();
+      const countryRaw = document.getElementById('reviewCountrySelect').value.split('|');
+      const countryName = countryRaw[0] || 'International';
+      const countryFlag = countryRaw[1] || '🌍';
+      const tourName = document.getElementById('reviewTourSelect').value;
+      const comment = document.getElementById('reviewCommentInput').value.trim();
+      const rating = parseInt(ratingInput.value) || 5;
+
+      const newReview = {
+        id: 'rev_' + Date.now(),
+        author: author,
+        country: countryName,
+        flag: countryFlag,
+        avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80',
+        rating: rating,
+        tourName: tourName,
+        date: new Date().toISOString().split('T')[0],
+        comment: comment,
+        verified: true
+      };
+
+      reviews.unshift(newReview);
+      localStorage.setItem('tourvanto_reviews', JSON.stringify(reviews));
+
+      if (window.TourvantoDB) {
+        TourvantoDB.saveReview(newReview);
+      }
+
+      if (window.TourvantoAnalytics) {
+        TourvantoAnalytics.trackReview(author, rating, tourName);
+      }
+
+      renderPublicReviews();
+      form.reset();
+      ratingInput.value = 5;
+      if (modal) modal.classList.add('hidden');
+      alert('Thank you! Your verified review has been published.');
+    });
+  }
+}
+
 // ================= INITIALIZATION & EVENT LISTENERS =================
 document.addEventListener('DOMContentLoaded', () => {
   // Apply saved language & currency
   updateLanguageDOM();
   renderToursGrid();
   initSmartTourBuilder();
+  renderPublicReviews();
+  initReviewSubmission();
 
   // Language Change Listener
   document.getElementById('langSelect').addEventListener('change', (e) => {

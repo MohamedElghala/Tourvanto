@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tourvanto - Premier International Tours & Excursions</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            serif: ['"Playfair Display"', 'serif'],
+          },
+          colors: {
+            brand: {
+              50: '#f0fdf9',
+              100: '#ccfbe9',
+              500: '#0d9488',
+              600: '#0f766e',
+              700: '#115e59',
+              800: '#134e4a',
+              900: '#042f2e',
+            },
+            accent: {
+              500: '#f59e0b',
+              600: '#d97706',
+            }
+          },
+          animation: {
+            'float-slow': 'float 6s ease-in-out infinite',
+            'pulse-glow': 'pulseGlow 2.5s infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-10px)' },
+            },
+            pulseGlow: {
+              '0%, 100%': { opacity: '1', transform: 'scale(1)' },
+              '50%': { opacity: '0.8', transform: 'scale(1.05)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .glass-nav {
+      background: rgba(15, 23, 42, 0.90);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+    .hero-gradient {
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.70) 0%, rgba(15, 23, 42, 0.92) 100%);
+    }
+    .timeline-dot::before {
+      content: '';
+      position: absolute;
+      left: -29px;
+      top: 4px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #0d9488;
+      border: 3px solid #ffffff;
+      box-shadow: 0 0 0 2px #0d9488;
+    }
+    .card-hover {
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .card-hover:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 30px -10px rgba(15, 118, 110, 0.15);
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-brand-500 selection:text-white">
+
+  <!-- ================= HEADER & NAVIGATION ================= -->
+  <header class="sticky top-0 z-40 glass-nav border-b border-slate-800 text-white transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-brand-600 to-accent-500 flex items-center justify-center text-white shadow-lg shadow-brand-500/30 group-hover:rotate-12 transition-transform duration-300">
+          <i class="fa-solid fa-compass text-2xl"></i>
+        </div>
+        <div>
+          <span class="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-300 bg-clip-text text-transparent">Tourvanto</span>
+          <span class="block text-[10px] uppercase tracking-widest text-brand-400 font-semibold">Excursions & Transfers</span>
+        </div>
+      </a>
+
+      <!-- Controls: Currency + Language + Admin Switch -->
+      <div class="flex items-center gap-3 sm:gap-4">
+        
+        <!-- Currency Selector -->
+        <div class="relative">
+          <select id="currencySelect" class="bg-slate-800/95 text-sm font-bold border border-slate-700 rounded-xl px-3 py-2 text-white hover:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500 cursor-pointer transition-colors shadow-inner">
+            <option value="EUR">€ EUR</option>
+            <option value="USD">$ USD</option>
+            <option value="RUB">₽ RUB</option>
+            <option value="GBP">£ GBP</option>
+          </select>
+        </div>
+
+        <!-- Language Selector -->
+        <div class="relative">
+          <select id="langSelect" class="bg-slate-800/95 text-sm font-bold border border-slate-700 rounded-xl px-3 py-2 text-white hover:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500 cursor-pointer transition-colors shadow-inner">
+            <option value="en">🇬🇧 English</option>
+            <option value="de">🇩🇪 Deutsch</option>
+            <option value="ru">🇷🇺 Русский</option>
+            <option value="fr">🇫🇷 Français</option>
+            <option value="it">🇮🇹 Italiano</option>
+          </select>
+        </div>
+
+        <!-- Admin Portal Toggle Button -->
+        <button id="toggleAdminBtn" class="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white px-3.5 py-2 rounded-xl text-xs font-bold border border-slate-700 hover:border-brand-500 transition-all">
+          <i class="fa-solid fa-gauge"></i>
+          <span id="adminToggleText">Admin Portal</span>
+        </button>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= VISITOR VIEW ================= -->
+  <main id="visitorView" class="block">
+    
+    <!-- Hero Section with Animated Badges -->
+    <section class="relative bg-slate-900 min-h-[580px] flex items-center justify-center text-center px-4 py-20 overflow-hidden">
+      <!-- Background Image -->
+      <div class="absolute inset-0 z-0">
+        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2000&q=80" alt="Excursions & Travel" class="w-full h-full object-cover object-center opacity-40 scale-105 transform animate-pulse duration-1000" style="animation-duration: 12s;">
+        <div class="absolute inset-0 hero-gradient"></div>
+      </div>
+
+      <div class="relative z-10 max-w-4xl mx-auto space-y-6">
+        <!-- Floating Animated Trust Badge -->
+        <div class="inline-flex items-center gap-2 bg-brand-500/25 border border-brand-500/50 text-brand-300 px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider backdrop-blur-md animate-float-slow shadow-lg">
+          <i class="fa-solid fa-award text-amber-400"></i>
+          <span data-i18n="badgeOfExcellence">Badge of Excellence 2026</span> &bull; <span data-i18n="freeCancellation">Free cancellation</span>
+        </div>
+
+        <h1 class="text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-tight drop-shadow-md">
+          <span data-i18n="tagline">Explore More. Worry Less.</span>
+        </h1>
+        <p class="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto font-normal leading-relaxed" data-i18n="subtagline">
+          Discover and book handpicked tours, desert safaris, sea trips, and VIP transfers with instant confirmation and flexible payment.
+        </p>
+
+        <!-- Search Box -->
+        <div class="mt-8 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-3xl shadow-2xl border border-white/30 max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-12 gap-3 text-left">
+          <div class="sm:col-span-8 relative">
+            <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+            <input type="text" id="searchInput" class="w-full pl-11 pr-4 py-3.5 bg-slate-100 border border-slate-200 rounded-2xl text-slate-800 text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all placeholder:text-slate-400" placeholder="Where are you going or what do you want to do?">
+          </div>
+          <div class="sm:col-span-4">
+            <button id="searchBtn" class="w-full py-3.5 bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-500 hover:to-brand-600 text-white font-bold rounded-2xl shadow-lg shadow-brand-600/30 transition-all flex items-center justify-center gap-2 text-sm hover:scale-[1.02]">
+              <i class="fa-solid fa-compass"></i>
+              <span data-i18n="searchBtn">Search Tours</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust Badges Bar (Viator / GetYourGuide Inspired) -->
+    <section class="bg-white border-b border-slate-200/80 py-6 px-4">
+      <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <div class="flex items-center justify-center gap-3 text-slate-700">
+          <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl shadow-sm">
+            <i class="fa-solid fa-money-bill-wave"></i>
+          </div>
+          <div class="text-left">
+            <p class="text-xs font-extrabold uppercase tracking-wider text-slate-900">Zero Upfront Risk</p>
+            <p class="text-xs text-slate-500 font-medium" data-i18n="payAtPickupBadge">Pay Cash on Pickup</p>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-center gap-3 text-slate-700">
+          <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl shadow-sm">
+            <i class="fa-solid fa-rotate-left"></i>
+          </div>
+          <div class="text-left">
+            <p class="text-xs font-extrabold uppercase tracking-wider text-slate-900">100% Flexible</p>
+            <p class="text-xs text-slate-500 font-medium">Free Cancel up to 24h</p>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-center gap-3 text-slate-700">
+          <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl shadow-sm">
+            <i class="fa-solid fa-bolt"></i>
+          </div>
+          <div class="text-left">
+            <p class="text-xs font-extrabold uppercase tracking-wider text-slate-900">Instant Voucher</p>
+            <p class="text-xs text-slate-500 font-medium" data-i18n="instantConfirmation">Immediate Confirmation</p>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-center gap-3 text-slate-700">
+          <div class="w-12 h-12 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center text-xl shadow-sm">
+            <i class="fa-brands fa-whatsapp text-2xl text-emerald-600"></i>
+          </div>
+          <div class="text-left">
+            <p class="text-xs font-extrabold uppercase tracking-wider text-slate-900">24/7 Human Care</p>
+            <p class="text-xs text-slate-500 font-medium">Multilingual WhatsApp</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content & Catalog Section -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+        <div>
+          <span class="text-xs font-extrabold uppercase tracking-widest text-brand-600 mb-1 block">Featured Collections</span>
+          <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Top-Rated Handpicked Excursions</h2>
+        </div>
+
+        <!-- Category Filter Tabs -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none" id="categoryTabs">
+          <button class="cat-btn active px-5 py-2.5 rounded-2xl text-sm font-bold transition-all whitespace-nowrap bg-brand-600 text-white shadow-md shadow-brand-600/30" data-cat="all">
+            <i class="fa-solid fa-border-all mr-1.5"></i>
+            <span data-i18n="allCategories">All Excursions</span>
+          </button>
+          <button class="cat-btn px-5 py-2.5 rounded-2xl text-sm font-semibold transition-all whitespace-nowrap bg-white text-slate-600 border border-slate-200 hover:border-brand-500 hover:text-brand-600" data-cat="safari">
+            <i class="fa-solid fa-mountain-sun mr-1.5"></i>
+            <span data-i18n="catSafari">Desert & Safari</span>
+          </button>
+          <button class="cat-btn px-5 py-2.5 rounded-2xl text-sm font-semibold transition-all whitespace-nowrap bg-white text-slate-600 border border-slate-200 hover:border-brand-500 hover:text-brand-600" data-cat="sea">
+            <i class="fa-solid fa-water mr-1.5"></i>
+            <span data-i18n="catSea">Sea & Snorkeling</span>
+          </button>
+          <button class="cat-btn px-5 py-2.5 rounded-2xl text-sm font-semibold transition-all whitespace-nowrap bg-white text-slate-600 border border-slate-200 hover:border-brand-500 hover:text-brand-600" data-cat="culture">
+            <i class="fa-solid fa-landmark mr-1.5"></i>
+            <span data-i18n="catCulture">Culture & Sightseeing</span>
+          </button>
+          <button class="cat-btn px-5 py-2.5 rounded-2xl text-sm font-semibold transition-all whitespace-nowrap bg-white text-slate-600 border border-slate-200 hover:border-brand-500 hover:text-brand-600" data-cat="adventure">
+            <i class="fa-solid fa-person-snowboarding mr-1.5"></i>
+            <span data-i18n="catAdventure">Adventure & Sports</span>
+          </button>
+          <button class="cat-btn px-5 py-2.5 rounded-2xl text-sm font-semibold transition-all whitespace-nowrap bg-white text-slate-600 border border-slate-200 hover:border-brand-500 hover:text-brand-600" data-cat="transfers">
+            <i class="fa-solid fa-van-shuttle mr-1.5"></i>
+            <span data-i18n="catTransfers">Airport Transfers</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Tours Grid -->
+      <div id="toursGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Tour cards rendered dynamically via app.js with Card Hover Animation -->
+      </div>
+
+      <!-- Empty State -->
+      <div id="noToursMsg" class="hidden text-center py-16">
+        <i class="fa-solid fa-compass text-5xl text-slate-300 mb-4 animate-spin" style="animation-duration: 8s;"></i>
+        <h3 class="text-xl font-bold text-slate-700">No excursions found</h3>
+        <p class="text-slate-500 text-sm mt-1">Try searching with different keywords or choosing another category.</p>
+      </div>
+    </section>
+
+    <!-- ================= EXCLUSIVE KILLER FEATURE: SMART VIP CUSTOM TOUR BUILDER ================= -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="bg-gradient-to-br from-slate-900 via-slate-800 to-brand-900 rounded-3xl p-8 sm:p-12 text-white shadow-2xl border border-slate-700 relative overflow-hidden">
+        <!-- Decorative Glow -->
+        <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-brand-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-3xl space-y-4 relative z-10">
+          <div class="inline-flex items-center gap-2 bg-accent-500/20 text-accent-400 border border-accent-500/40 px-3.5 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <span>Exclusive Feature</span>
+          </div>
+
+          <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight" data-i18n="customBuilderTitle">
+            Design Your Tailor-Made VIP Tour
+          </h2>
+          <p class="text-slate-300 text-sm sm:text-base leading-relaxed" data-i18n="customBuilderSubtitle">
+            Want a private yacht, customized safari, or personal Egyptologist? Get an instant quote in 30 seconds!
+          </p>
+
+          <!-- Interactive Builder Inputs -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6">
+            <div>
+              <label class="block text-xs font-bold text-slate-300 mb-1" data-i18n="chooseExperience">Choose Experience</label>
+              <select id="customExpSelect" class="w-full px-3.5 py-3 bg-slate-800 border border-slate-600 rounded-xl text-sm font-semibold text-white focus:outline-none focus:border-brand-400">
+                <option value="yacht" data-base="280" data-i18n="expPrivateYacht">Private VIP Yacht Charter</option>
+                <option value="safari" data-base="150" data-i18n="expPrivateSafari">Private Desert Quad Safari & Dinner</option>
+                <option value="luxor" data-base="320" data-i18n="expPrivateLuxor">Private Luxor & Kings Valley with Guide</option>
+                <option value="cairo" data-base="350" data-i18n="expPrivateCairo">Private Pyramids & Museum Tour</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-300 mb-1" data-i18n="groupSize">Party Size</label>
+              <select id="customGroupSelect" class="w-full px-3.5 py-3 bg-slate-800 border border-slate-600 rounded-xl text-sm font-semibold text-white focus:outline-none focus:border-brand-400">
+                <option value="2">2 Guests (Couple / Private)</option>
+                <option value="4">3 - 4 Guests (Small Family)</option>
+                <option value="8">5 - 8 Guests (Group / Friends)</option>
+                <option value="15">9+ Guests (VIP Delegation)</option>
+              </select>
+            </div>
+
+            <div class="flex items-end">
+              <button id="calcCustomBtn" class="w-full py-3 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-xl text-sm shadow-lg shadow-brand-600/30 transition-all flex items-center justify-center gap-2">
+                <i class="fa-solid fa-calculator"></i>
+                <span data-i18n="calcEstimateBtn">Get Instant VIP Estimate</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Result & WhatsApp Button -->
+          <div id="customResultBox" class="hidden mt-6 pt-6 border-t border-slate-700/80 flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-800/50 p-4 rounded-2xl">
+            <div>
+              <span class="text-xs text-slate-400 uppercase tracking-wider block">Estimated VIP Private Price:</span>
+              <span id="customEstimatedPrice" class="text-3xl font-black text-brand-400">€280</span>
+              <span class="text-xs text-slate-400 ml-2">(Includes private Mercedes vehicle, personal guide & VIP perks)</span>
+            </div>
+
+            <a id="customWhatsAppLink" href="#" target="_blank" class="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs flex items-center gap-2 shadow-lg shadow-emerald-600/30 transition-all">
+              <i class="fa-brands fa-whatsapp text-lg"></i>
+              <span data-i18n="customWhatsAppBtn">Book Custom Itinerary via WhatsApp</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= ABOUT US & TRUST METRICS ================= -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-slate-200">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        
+        <div class="space-y-6">
+          <div class="inline-flex items-center gap-2 text-brand-600 text-xs font-extrabold uppercase tracking-wider">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>Who We Are</span>
+          </div>
+
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight" data-i18n="aboutTitle">
+            About Tourvanto Excursions
+          </h2>
+          <p class="text-base font-semibold text-slate-700 leading-relaxed" data-i18n="aboutSubtitle">
+            Setting the gold standard in premium, worry-free tourism experiences since 2018.
+          </p>
+          <p class="text-sm text-slate-600 leading-relaxed" data-i18n="aboutP1">
+            Tourvanto was founded with one clear mission: to eliminate travel stress, shady pricing, and endless negotiation for international travelers. We operate our own fleet of modern, air-conditioned vehicles and partner with the highest-rated licensed local guides and marine captains.
+          </p>
+          <p class="text-sm text-slate-600 leading-relaxed" data-i18n="aboutP2">
+            Whether you are seeking thrilling quad biking over Sahara dunes, swimming alongside wild dolphins in the Red Sea, or marveling at the colossal pillars of Karnak Temple, we ensure every detail of your day is flawless.
+          </p>
+
+          <!-- 3 Stats Cards -->
+          <div class="grid grid-cols-3 gap-4 pt-4 border-t border-slate-100 text-center">
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+              <p class="text-xl font-extrabold text-brand-600">18,500+</p>
+              <p class="text-[11px] font-bold text-slate-500 uppercase mt-1" data-i18n="statHappy">Happy Guests</p>
+            </div>
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+              <p class="text-xl font-extrabold text-emerald-600">100%</p>
+              <p class="text-[11px] font-bold text-slate-500 uppercase mt-1" data-i18n="statFleet">Insured Fleet</p>
+            </div>
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+              <p class="text-xl font-extrabold text-amber-500">4.9 / 5</p>
+              <p class="text-[11px] font-bold text-slate-500 uppercase mt-1" data-i18n="statRating">Average Rating</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Image Collage -->
+        <div class="grid grid-cols-2 gap-4">
+          <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=600&q=80" alt="Safari Guest" class="w-full h-56 object-cover rounded-3xl shadow-lg hover:scale-105 transition-transform duration-300">
+          <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=600&q=80" alt="Yacht Guest" class="w-full h-56 object-cover rounded-3xl shadow-lg mt-8 hover:scale-105 transition-transform duration-300">
+          <img src="https://images.unsplash.com/photo-1568322445389-f64ac2515020?auto=format&fit=crop&w=600&q=80" alt="Luxor Temple" class="w-full h-56 object-cover rounded-3xl shadow-lg -mt-8 hover:scale-105 transition-transform duration-300">
+          <img src="https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?auto=format&fit=crop&w=600&q=80" alt="Pyramids View" class="w-full h-56 object-cover rounded-3xl shadow-lg hover:scale-105 transition-transform duration-300">
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= INTERACTIVE FAQ ACCORDION ================= -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="text-center space-y-2 mb-12">
+        <span class="text-xs font-extrabold uppercase tracking-widest text-brand-600 block">Got Questions?</span>
+        <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight" data-i18n="faqTitle">Frequently Asked Questions</h2>
+        <p class="text-sm text-slate-500" data-i18n="faqSubtitle">Everything you need to know before booking your excursion.</p>
+      </div>
+
+      <div class="space-y-4" id="faqAccordion">
+        
+        <!-- Q1 -->
+        <div class="faq-item bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+          <button class="faq-header w-full px-6 py-4.5 text-left font-bold text-slate-800 hover:text-brand-600 flex justify-between items-center transition-colors">
+            <span data-i18n="faqQ1">How does the 'Pay Cash on Pickup' work?</span>
+            <i class="fa-solid fa-chevron-down text-xs text-slate-400 transition-transform duration-300"></i>
+          </button>
+          <div class="faq-content hidden px-6 pb-5 text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3" data-i18n="faqA1">
+            You simply complete the booking form with your hotel name and WhatsApp number. We immediately confirm your seats and send your voucher. You don't pay a single cent online; you pay cash (in EUR, USD, RUB, or local currency) directly to your tour guide or driver when they pick you up from your hotel lobby.
+          </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="faq-item bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+          <button class="faq-header w-full px-6 py-4.5 text-left font-bold text-slate-800 hover:text-brand-600 flex justify-between items-center transition-colors">
+            <span data-i18n="faqQ2">What if my flight or schedule changes?</span>
+            <i class="fa-solid fa-chevron-down text-xs text-slate-400 transition-transform duration-300"></i>
+          </button>
+          <div class="faq-content hidden px-6 pb-5 text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3" data-i18n="faqA2">
+            All Tourvanto bookings include 100% Free Cancellation up to 24 hours before your scheduled pickup time. Just send a quick WhatsApp message to our 24/7 team and we will reschedule or cancel immediately with zero penalty.
+          </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="faq-item bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+          <button class="faq-header w-full px-6 py-4.5 text-left font-bold text-slate-800 hover:text-brand-600 flex justify-between items-center transition-colors">
+            <span data-i18n="faqQ3">Where will the tour guide meet me?</span>
+            <i class="fa-solid fa-chevron-down text-xs text-slate-400 transition-transform duration-300"></i>
+          </button>
+          <div class="faq-content hidden px-6 pb-5 text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3" data-i18n="faqA3">
+            Our air-conditioned transport picks you up right outside your hotel reception/main lobby. We will send you the driver's name, vehicle license plate, and exact pickup time via WhatsApp the evening before your excursion.
+          </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="faq-item bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+          <button class="faq-header w-full px-6 py-4.5 text-left font-bold text-slate-800 hover:text-brand-600 flex justify-between items-center transition-colors">
+            <span data-i18n="faqQ4">Are all entrance fees and lunch included?</span>
+            <i class="fa-solid fa-chevron-down text-xs text-slate-400 transition-transform duration-300"></i>
+          </button>
+          <div class="faq-content hidden px-6 pb-5 text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3" data-i18n="faqA4">
+            Yes! All national park fees, temple admission tickets, and lunch buffets mentioned under 'What's Included' are 100% covered. There are never any hidden costs or surprise fees.
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 border-t border-slate-800 py-16 px-4">
+      <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
+        <div class="space-y-4 md:col-span-2">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-brand-500 flex items-center justify-center text-white">
+              <i class="fa-solid fa-compass text-xl"></i>
+            </div>
+            <span class="text-2xl font-bold text-white tracking-tight">Tourvanto</span>
+          </div>
+          <p class="text-sm leading-relaxed max-w-md" data-i18n="footerAbout">
+            Tourvanto is your premier booking platform for day trips, desert excursions, Red Sea boat cruises, and luxury airport transfers.
+          </p>
+          <div class="flex items-center gap-4 text-slate-400 text-lg">
+            <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-facebook"></i></a>
+            <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-tripadvisor"></i></a>
+            <a href="https://wa.me/201000000000" target="_blank" class="hover:text-emerald-400 transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="text-white text-sm font-bold uppercase tracking-wider mb-4" data-i18n="quickLinks">Quick Links</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#" class="hover:text-brand-400 transition-colors" data-i18n="catSafari">Desert & Safari</a></li>
+            <li><a href="#" class="hover:text-brand-400 transition-colors" data-i18n="catSea">Sea & Snorkeling</a></li>
+            <li><a href="#" class="hover:text-brand-400 transition-colors" data-i18n="catCulture">Culture & Sightseeing</a></li>
+            <li><a href="#" class="hover:text-brand-400 transition-colors" data-i18n="catTransfers">Airport Transfers</a></li>
+            <li><button onclick="openPolicyModal('cancellation')" class="hover:text-brand-400 transition-colors text-left" data-i18n="policyCancellationTitle">Cancellation Policy</button></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-white text-sm font-bold uppercase tracking-wider mb-4" data-i18n="contactUs">24/7 Traveler Support</h4>
+          <p class="text-sm mb-2"><i class="fa-solid fa-envelope mr-2 text-brand-400"></i> support@tourvanto.com</p>
+          <p class="text-sm mb-2"><i class="fa-brands fa-whatsapp mr-2 text-emerald-400"></i> +20 100 000 0000</p>
+          <p class="text-xs text-slate-500 mt-4">English &bull; Deutsch &bull; Русский &bull; Français &bull; Italiano</p>
+        </div>
+      </div>
+
+      <div class="max-w-7xl mx-auto border-t border-slate-800/80 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+        <span data-i18n="rightsReserved">All rights reserved. Tourvanto International Excursions.</span>
+        <div class="flex items-center gap-4">
+          <button onclick="openPolicyModal('cancellation')" class="hover:text-slate-300">Cancellation Policy</button>
+          <span>&bull;</span>
+          <button onclick="openPolicyModal('terms')" class="hover:text-slate-300">Terms of Service</button>
+          <span>&bull;</span>
+          <button onclick="openPolicyModal('privacy')" class="hover:text-slate-300">Privacy Policy</button>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- ================= TOUR DETAILS MODAL ================= -->
+  <div id="tourDetailsModal" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm hidden flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+    <div class="bg-white rounded-3xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-slate-100 relative my-8">
+      
+      <!-- Close Button -->
+      <button id="closeTourDetailsBtn" class="absolute top-5 right-5 z-20 w-10 h-10 rounded-full bg-slate-900/70 hover:bg-slate-900 text-white flex items-center justify-center backdrop-blur-md transition-all">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <!-- Modal Content Body -->
+      <div id="tourDetailsBody">
+        <!-- Rendered dynamically in app.js -->
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= CHECKOUT & BOOKING MODAL (TRIPLE CHECKOUT) ================= -->
+  <div id="checkoutModal" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm hidden flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+    <div class="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-slate-100 relative my-8 p-6 sm:p-8">
+      
+      <!-- Close Button -->
+      <button id="closeCheckoutBtn" class="absolute top-6 right-6 text-slate-400 hover:text-slate-700 transition-colors">
+        <i class="fa-solid fa-xmark text-xl"></i>
+      </button>
+
+      <div class="space-y-6">
+        <div>
+          <div class="inline-flex items-center gap-2 text-brand-600 text-xs font-bold uppercase tracking-wider mb-1">
+            <i class="fa-solid fa-shield-check"></i> 100% Secure Reservation
+          </div>
+          <h2 class="text-2xl font-extrabold text-slate-900" data-i18n="bookingSummary">Booking Summary</h2>
+          <p id="checkoutTourTitle" class="text-sm font-semibold text-slate-600 mt-1"></p>
+        </div>
+
+        <!-- Booking Form -->
+        <form id="checkoutForm" class="space-y-4">
+          <input type="hidden" id="bookingTourId">
+
+          <!-- Date & Travelers Row -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1" data-i18n="selectDate">Select Date</label>
+              <input type="date" id="bookingDate" required class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:bg-white focus:ring-2 focus:ring-brand-500 focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1" data-i18n="adults">Adults (12+ yrs)</label>
+              <input type="number" id="bookingAdults" min="1" max="50" value="2" required class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:bg-white focus:ring-2 focus:ring-brand-500 focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1" data-i18n="children">Children (3-11 yrs)</label>
+              <input type="number" id="bookingChildren" min="0" max="20" value="0" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:bg-white focus:ring-2 focus:ring-brand-500 focus:outline-none">
+            </div>
+          </div>
+
+          <!-- Pickup Hotel Details (Essential for Tour Operators) -->
+          <div class="bg-amber-50/70 border border-amber-200/80 p-4 rounded-2xl space-y-3">
+            <div class="flex items-center gap-2 text-amber-800 text-xs font-bold uppercase tracking-wider">
+              <i class="fa-solid fa-location-dot text-amber-600"></i>
+              <span data-i18n="hotelPickup">Hotel Pickup Details</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="hotelName">Hotel Name</label>
+                <input type="text" id="bookingHotel" required placeholder="e.g. Rixos Premium / Steigenberger" class="w-full px-3 py-2 bg-white border border-amber-200 rounded-xl text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="roomNumber">Room Number</label>
+                <input type="text" id="bookingRoom" placeholder="Room number (or 'Will send later')" class="w-full px-3 py-2 bg-white border border-amber-200 rounded-xl text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none">
+              </div>
+            </div>
+          </div>
+
+          <!-- Contact Details -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1" data-i18n="fullName">Full Name</label>
+              <input type="text" id="bookingName" required placeholder="e.g. Thomas Müller / Ivan Petrov" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:bg-white focus:ring-2 focus:ring-brand-500 focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1" data-i18n="phoneWhatsapp">WhatsApp Number</label>
+              <input type="tel" id="bookingWhatsapp" required placeholder="+49 151 ... / +7 916 ..." class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:bg-white focus:ring-2 focus:ring-brand-500 focus:outline-none">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1" data-i18n="email">Email Address</label>
+            <input type="email" id="bookingEmail" required placeholder="traveler@gmail.com" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:bg-white focus:ring-2 focus:ring-brand-500 focus:outline-none">
+          </div>
+
+          <!-- PAYMENT METHODS (TRIPLE CHECKOUT) -->
+          <div class="pt-4 border-t border-slate-200 space-y-3">
+            <label class="block text-sm font-extrabold text-slate-900" data-i18n="paymentMethod">Choose Payment Method</label>
+
+            <!-- Option 1: Cash on Pickup (Top Pick for Inbound Tourism) -->
+            <label class="payment-option relative flex items-start p-4 rounded-2xl border-2 border-emerald-500 bg-emerald-50/50 cursor-pointer transition-all">
+              <input type="radio" name="paymentType" value="cash" checked class="mt-1 text-emerald-600 focus:ring-emerald-500">
+              <div class="ml-3 flex-1">
+                <div class="flex items-center justify-between">
+                  <span class="text-sm font-bold text-emerald-950" data-i18n="payCash">Pay Cash on Pickup (Zero Upfront)</span>
+                  <span class="bg-emerald-600 text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase">Most Popular</span>
+                </div>
+                <p class="text-xs text-emerald-800 mt-1" data-i18n="payCashDesc">No credit card needed now! Your seats are locked, and you pay cash to your driver or tour guide upon pickup.</p>
+              </div>
+            </label>
+
+            <!-- Option 2: Credit/Debit Card (Stripe) -->
+            <label class="payment-option relative flex items-start p-4 rounded-2xl border border-slate-200 hover:border-slate-300 bg-white cursor-pointer transition-all">
+              <input type="radio" name="paymentType" value="card" class="mt-1 text-brand-600 focus:ring-brand-500">
+              <div class="ml-3 flex-1">
+                <div class="flex items-center justify-between">
+                  <span class="text-sm font-bold text-slate-900" data-i18n="payCard">Credit / Debit Card (Stripe)</span>
+                  <div class="flex items-center gap-1.5 text-slate-400 text-lg">
+                    <i class="fa-brands fa-cc-visa"></i>
+                    <i class="fa-brands fa-cc-mastercard"></i>
+                  </div>
+                </div>
+                <!-- Card inputs (shown if card selected) -->
+                <div id="cardFields" class="hidden mt-3 space-y-2 pt-2 border-t border-slate-100">
+                  <input type="text" placeholder="1234 5678 9012 3456" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-mono">
+                  <div class="grid grid-cols-2 gap-2">
+                    <input type="text" placeholder="MM/YY" class="px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-mono">
+                    <input type="text" placeholder="CVC" class="px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-mono">
+                  </div>
+                </div>
+              </div>
+            </label>
+
+            <!-- Option 3: PayPal -->
+            <label class="payment-option relative flex items-start p-4 rounded-2xl border border-slate-200 hover:border-slate-300 bg-white cursor-pointer transition-all">
+              <input type="radio" name="paymentType" value="paypal" class="mt-1 text-blue-600 focus:ring-blue-500">
+              <div class="ml-3 flex-1 flex items-center justify-between">
+                <span class="text-sm font-bold text-slate-900" data-i18n="payPaypal">PayPal Express</span>
+                <i class="fa-brands fa-paypal text-xl text-blue-700"></i>
+              </div>
+            </label>
+          </div>
+
+          <!-- Total Calculation & Confirmation Button -->
+          <div class="pt-4 border-t border-slate-200 flex items-center justify-between">
+            <div>
+              <span class="text-xs text-slate-500 block uppercase tracking-wider" data-i18n="totalPrice">Total Amount</span>
+              <span id="checkoutTotalAmount" class="text-2xl font-black text-slate-900">€0</span>
+            </div>
+
+            <button type="submit" class="px-8 py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-2xl shadow-xl shadow-brand-600/30 transition-all flex items-center gap-2 text-sm hover:scale-[1.02]">
+              <i class="fa-solid fa-lock"></i>
+              <span data-i18n="completeBooking">Confirm Booking</span>
+            </button>
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= BOOKING SUCCESS & VOUCHER MODAL ================= -->
+  <div id="voucherModal" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm hidden flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+    <div class="bg-white rounded-3xl shadow-2xl max-w-md w-full border border-slate-100 relative my-8 p-6 sm:p-8 text-center space-y-6">
+      
+      <!-- Success Icon -->
+      <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl mx-auto shadow-lg shadow-emerald-500/20 animate-bounce" style="animation-iteration-count: 2;">
+        <i class="fa-solid fa-check"></i>
+      </div>
+
+      <div>
+        <h3 class="text-2xl font-extrabold text-slate-900" data-i18n="bookingSuccessTitle">Booking Confirmed Successfully!</h3>
+        <p class="text-xs text-slate-500 mt-1" data-i18n="bookingSuccessMsg">Your reservation voucher has been created. A confirmation copy will be sent to your WhatsApp and Email.</p>
+      </div>
+
+      <!-- Ticket Voucher Box -->
+      <div class="bg-slate-50 border-2 border-dashed border-slate-300 rounded-2xl p-5 text-left space-y-3 font-mono text-xs shadow-inner">
+        <div class="flex justify-between items-center border-b border-slate-200 pb-2">
+          <span class="text-slate-400 font-sans uppercase text-[10px]" data-i18n="voucherId">Voucher Code</span>
+          <span id="voucherCodeDisplay" class="font-bold text-sm text-brand-600"></span>
+        </div>
+        <div>
+          <span class="text-slate-400 block text-[10px] font-sans">TOUR</span>
+          <span id="voucherTourName" class="font-bold text-slate-800 font-sans text-xs"></span>
+        </div>
+        <div class="grid grid-cols-2 gap-2 pt-1">
+          <div>
+            <span class="text-slate-400 block text-[10px] font-sans">DATE</span>
+            <span id="voucherDate" class="font-bold text-slate-800"></span>
+          </div>
+          <div>
+            <span class="text-slate-400 block text-[10px] font-sans">HOTEL PICKUP</span>
+            <span id="voucherHotel" class="font-bold text-slate-800"></span>
+          </div>
+        </div>
+        <div class="pt-2 border-t border-slate-200 flex justify-between items-center">
+          <span class="text-slate-500 font-sans text-xs">Payment Method:</span>
+          <span id="voucherPaymentType" class="font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded"></span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <button id="printVoucherBtn" class="flex-1 py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 transition-all">
+          <i class="fa-solid fa-print"></i>
+          <span data-i18n="printVoucher">Download / Print Voucher</span>
+        </button>
+        <button id="closeVoucherBtn" class="px-5 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition-all" data-i18n="close">
+          Close
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= POLICY MODAL (CANCELLATION, TERMS, PRIVACY) ================= -->
+  <div id="policyModal" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm hidden flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+    <div class="bg-white rounded-3xl shadow-2xl max-w-xl w-full border border-slate-100 relative my-8 p-6 sm:p-8 space-y-4">
+      <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+        <h3 id="policyModalTitle" class="text-xl font-extrabold text-slate-900"></h3>
+        <button onclick="closePolicyModal()" class="text-slate-400 hover:text-slate-700 text-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div id="policyModalText" class="text-sm text-slate-600 leading-relaxed max-h-80 overflow-y-auto space-y-3">
+      </div>
+      <div class="pt-3 border-t border-slate-100 text-right">
+        <button onclick="closePolicyModal()" class="px-6 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl text-xs">
+          Got It
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= ADMIN DASHBOARD PORTAL ================= -->
+  <div id="adminPortal" class="hidden min-h-screen bg-slate-900 text-white p-4 sm:p-8">
+    <div class="max-w-7xl mx-auto space-y-8">
+      
+      <!-- Top Bar -->
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-800 pb-6">
+        <div>
+          <span class="inline-block text-xs font-bold uppercase tracking-widest text-brand-400 mb-1">Management Console</span>
+          <h1 class="text-3xl font-extrabold tracking-tight">Tourvanto Admin Dashboard</h1>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button id="adminBackToSiteBtn" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-sm font-bold border border-slate-700 transition-all flex items-center gap-2">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span data-i18n="backToSite">Back to Visitor Portal</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Stats Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-4 gap-6">
+        <div class="bg-slate-800/80 border border-slate-700/80 p-5 rounded-2xl">
+          <p class="text-xs text-slate-400 font-bold uppercase tracking-wider">Total Excursions</p>
+          <p id="statTotalTours" class="text-3xl font-extrabold text-white mt-1">6</p>
+        </div>
+        <div class="bg-slate-800/80 border border-slate-700/80 p-5 rounded-2xl">
+          <p class="text-xs text-slate-400 font-bold uppercase tracking-wider">Total Bookings</p>
+          <p id="statTotalBookings" class="text-3xl font-extrabold text-emerald-400 mt-1">0</p>
+        </div>
+        <div class="bg-slate-800/80 border border-slate-700/80 p-5 rounded-2xl">
+          <p class="text-xs text-slate-400 font-bold uppercase tracking-wider">Active Pickup Leads</p>
+          <p id="statActiveLeads" class="text-3xl font-extrabold text-amber-400 mt-1">0</p>
+        </div>
+        <div class="bg-slate-800/80 border border-slate-700/80 p-5 rounded-2xl">
+          <p class="text-xs text-slate-400 font-bold uppercase tracking-wider">Languages Active</p>
+          <p class="text-3xl font-extrabold text-blue-400 mt-1">5 (EN/DE/RU/FR/IT)</p>
+        </div>
+      </div>
+
+      <!-- Bookings Inbox Table -->
+      <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-6 space-y-4">
+        <div class="flex items-center justify-between">
+          <h2 class="text-lg font-bold flex items-center gap-2">
+            <i class="fa-solid fa-inbox text-brand-400"></i>
+            <span data-i18n="bookingsInbox">Bookings & Leads Inbox</span>
+          </h2>
+          <button id="clearBookingsBtn" class="text-xs text-rose-400 hover:text-rose-300 transition-colors">Clear All History</button>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-slate-300">
+            <thead class="bg-slate-900/60 text-xs uppercase text-slate-400 border-b border-slate-700 font-semibold">
+              <tr>
+                <th class="py-3 px-4">Voucher Code</th>
+                <th class="py-3 px-4">Date</th>
+                <th class="py-3 px-4">Traveler & WhatsApp</th>
+                <th class="py-3 px-4">Hotel & Room</th>
+                <th class="py-3 px-4">Tour Name</th>
+                <th class="py-3 px-4">Payment</th>
+                <th class="py-3 px-4">Amount</th>
+                <th class="py-3 px-4">Action</th>
+              </tr>
+            </thead>
+            <tbody id="adminBookingsTableBody" class="divide-y divide-slate-700/50">
+              <!-- Rendered dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Manage Tours Catalog Table -->
+      <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-6 space-y-4">
+        <h2 class="text-lg font-bold flex items-center gap-2">
+          <i class="fa-solid fa-list-check text-brand-400"></i>
+          <span data-i18n="manageTours">Manage Excursions</span>
+        </h2>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-slate-300">
+            <thead class="bg-slate-900/60 text-xs uppercase text-slate-400 border-b border-slate-700 font-semibold">
+              <tr>
+                <th class="py-3 px-4">Image</th>
+                <th class="py-3 px-4">Title (English)</th>
+                <th class="py-3 px-4">Category</th>
+                <th class="py-3 px-4">Price (EUR)</th>
+                <th class="py-3 px-4">Duration</th>
+                <th class="py-3 px-4">Rating</th>
+                <th class="py-3 px-4">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="adminToursTableBody" class="divide-y divide-slate-700/50">
+              <!-- Rendered dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="translations.js"></script>
+  <script src="toursData.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

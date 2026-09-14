@@ -123,13 +123,6 @@
             <option value="it">🇮🇹 Italiano</option>
           </select>
         </div>
-
-        <!-- Admin Portal Toggle Button -->
-        <button id="toggleAdminBtn" class="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white px-3.5 py-2 rounded-xl text-xs font-bold border border-slate-700 hover:border-brand-500 transition-all">
-          <i class="fa-solid fa-gauge"></i>
-          <span id="adminToggleText">Admin Portal</span>
-        </button>
-
       </div>
     </div>
   </header>
@@ -486,7 +479,12 @@
       </div>
 
       <div class="max-w-7xl mx-auto border-t border-slate-800/80 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
-        <span data-i18n="rightsReserved">All rights reserved. Tourvanto International Excursions.</span>
+        <div class="flex items-center gap-2">
+          <span data-i18n="rightsReserved">All rights reserved. Tourvanto International Excursions.</span>
+          <button id="openAdminAuthBtn" title="Management Console" class="text-slate-700 hover:text-brand-400 text-xs transition-colors p-1">
+            <i class="fa-solid fa-lock"></i>
+          </button>
+        </div>
         <div class="flex items-center gap-4">
           <button onclick="openPolicyModal('cancellation')" class="hover:text-slate-300">Cancellation Policy</button>
           <span>&bull;</span>
@@ -497,6 +495,29 @@
       </div>
     </footer>
   </main>
+
+  <!-- ================= ADMIN AUTHENTICATION SECURITY MODAL ================= -->
+  <div id="adminAuthModal" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-6 sm:p-8 text-center space-y-5 border border-slate-100 relative">
+      <div class="w-14 h-14 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center text-2xl mx-auto shadow-inner">
+        <i class="fa-solid fa-shield-halved"></i>
+      </div>
+      <div>
+        <h3 class="text-xl font-extrabold text-slate-900">Admin Authentication</h3>
+        <p class="text-xs text-slate-500 mt-1">Please enter your management security PIN to access the dashboard.</p>
+      </div>
+      <form id="adminAuthForm" class="space-y-4">
+        <div>
+          <input type="password" id="adminPinInput" required placeholder="••••••••" class="w-full text-center tracking-widest text-lg px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:ring-2 focus:ring-brand-500 focus:outline-none">
+          <p id="adminAuthError" class="text-xs text-rose-600 font-bold mt-2 hidden">Incorrect Security PIN. Access Denied.</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <button type="button" id="closeAdminAuthBtn" class="flex-1 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition-all">Cancel</button>
+          <button type="submit" class="flex-1 py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl text-xs shadow-md shadow-brand-600/20 transition-all">Unlock</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- ================= TOUR DETAILS MODAL ================= -->
   <div id="tourDetailsModal" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm hidden flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
@@ -742,6 +763,10 @@
           <button id="adminBackToSiteBtn" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-sm font-bold border border-slate-700 transition-all flex items-center gap-2">
             <i class="fa-solid fa-arrow-left"></i>
             <span data-i18n="backToSite">Back to Visitor Portal</span>
+          </button>
+          <button id="adminLogoutBtn" class="px-4 py-2 bg-rose-950/60 hover:bg-rose-900 text-rose-300 rounded-xl text-sm font-bold border border-rose-800 transition-all flex items-center gap-2">
+            <i class="fa-solid fa-lock"></i>
+            <span>Lock Dashboard</span>
           </button>
         </div>
       </div>

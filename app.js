@@ -466,22 +466,86 @@ function closePolicyModal() {
   document.getElementById('policyModal').classList.add('hidden');
 }
 
-// ================= ADMIN DASHBOARD FUNCTIONS =================
-function toggleAdminPortal() {
+// ================= CYBERSECURITY UTILITIES & INPUT SANITIZATION =================
+function escapeHTML(str) {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+// ================= ADMIN DASHBOARD FUNCTIONS & ACCESS CONTROL =================
+const ADMIN_SECURITY_PIN = "Tourvanto#9900";
+
+function checkAdminAuth() {
+  return sessionStorage.getItem('tourvanto_admin_authenticated') === 'true';
+}
+
+function openAdminAuthModal() {
+  if (checkAdminAuth()) {
+    showAdminDashboard();
+    return;
+  }
+  const modal = document.getElementById('adminAuthModal');
+  const err = document.getElementById('adminAuthError');
+  const pinInput = document.getElementById('adminPinInput');
+  if (err) err.classList.add('hidden');
+  if (pinInput) pinInput.value = '';
+  if (modal) modal.classList.remove('hidden');
+}
+
+function closeAdminAuthModal() {
+  const modal = document.getElementById('adminAuthModal');
+  if (modal) modal.classList.add('hidden');
+}
+
+function handleAdminAuthSubmit(e) {
+  e.preventDefault();
+  const pinInput = document.getElementById('adminPinInput');
+  const err = document.getElementById('adminAuthError');
+
+  if (pinInput && pinInput.value === ADMIN_SECURITY_PIN) {
+    sessionStorage.setItem('tourvanto_admin_authenticated', 'true');
+    closeAdminAuthModal();
+    showAdminDashboard();
+  } else {
+    if (err) err.classList.remove('hidden');
+    if (pinInput) {
+      pinInput.value = '';
+      pinInput.focus();
+    }
+  }
+}
+
+function showAdminDashboard() {
   const visitorView = document.getElementById('visitorView');
   const adminPortal = document.getElementById('adminPortal');
-  const adminToggleText = document.getElementById('adminToggleText');
-
-  if (adminPortal.classList.contains('hidden')) {
+  if (visitorView && adminPortal) {
     visitorView.classList.add('hidden');
     adminPortal.classList.remove('hidden');
-    adminToggleText.textContent = t('backToSite');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     renderAdminTables();
     updateAdminStats();
-  } else {
+  }
+}
+
+function hideAdminDashboard() {
+  const visitorView = document.getElementById('visitorView');
+  const adminPortal = document.getElementById('adminPortal');
+  if (visitorView && adminPortal) {
     visitorView.classList.remove('hidden');
     adminPortal.classList.add('hidden');
-    adminToggleText.textContent = t('adminLogin');
+  }
+}
+
+function logoutAdmin() {
+  sessionStorage.removeItem('tourvanto_admin_authenticated');
+  hideAdminDashboard();
+  if (window.location.hash === '#admin') {
+    history.replaceState(null, null, ' ');
   }
 }
 
@@ -493,49 +557,62 @@ function updateAdminStats() {
 }
 
 function renderAdminTables() {
-  // Bookings Inbox
+  // Bookings Inbox (Sanitized against Stored XSS)
   const bookingsBody = document.getElementById('adminBookingsTableBody');
   if (bookings.length === 0) {
     bookingsBody.innerHTML = `<tr><td colspan="8" class="text-center py-8 text-slate-500 text-xs">No bookings received yet.</td></tr>`;
   } else {
-    bookingsBody.innerHTML = bookings.map(b => `
-      <tr class="hover:bg-slate-800 transition-colors">
-        <td class="py-3 px-4 font-mono text-brand-400 font-bold text-xs">${b.id}</td>
-        <td class="py-3 px-4 text-xs">${b.date}</td>
-        <td class="py-3 px-4 text-xs">
-          <p class="font-bold text-white">${b.name}</p>
-          <a href="https://wa.me/${b.whatsapp.replace(/[^0-9]/g, '')}" target="_blank" class="text-emerald-400 hover:underline"><i class="fa-brands fa-whatsapp mr-1"></i>${b.whatsapp}</a>
-        </td>
-        <td class="py-3 px-4 text-xs">
-          <p class="text-white">${b.hotel}</p>
-          <p class="text-slate-400 text-[11px]">Room: ${b.room}</p>
-        </td>
-        <td class="py-3 px-4 text-xs font-medium text-slate-200 max-w-[200px] truncate">${b.tourTitle}</td>
-        <td class="py-3 px-4 text-xs">
-          <span class="px-2 py-0.5 rounded text-[11px] font-bold ${b.paymentMethod === 'cash' ? 'bg-amber-950/80 text-amber-300 border border-amber-800' : 'bg-emerald-950/80 text-emerald-300 border border-emerald-800'}">
-            ${b.paymentMethod.toUpperCase()}
-          </span>
-        </td>
-        <td class="py-3 px-4 text-xs font-bold text-white">${b.totalPrice}</td>
-        <td class="py-3 px-4 text-xs">
-          <button onclick="deleteBooking('${b.id}')" class="text-rose-400 hover:text-rose-300 p-1.5"><i class="fa-solid fa-trash"></i></button>
-        </td>
-      </tr>
-    `).join('');
+    bookingsBody.innerHTML = bookings.map(b => {
+      const safeId = escapeHTML(b.id);
+      const safeDate = escapeHTML(b.date);
+      const safeName = escapeHTML(b.name);
+      const safeWhatsapp = escapeHTML(b.whatsapp);
+      const safeHotel = escapeHTML(b.hotel);
+      const safeRoom = escapeHTML(b.room);
+      const safeTourTitle = escapeHTML(b.tourTitle);
+      const safePaymentMethod = escapeHTML(b.paymentMethod);
+      const safeTotalPrice = escapeHTML(b.totalPrice);
+      const cleanPhone = safeWhatsapp.replace(/[^0-9]/g, '');
+
+      return `
+        <tr class="hover:bg-slate-800 transition-colors">
+          <td class="py-3 px-4 font-mono text-brand-400 font-bold text-xs">${safeId}</td>
+          <td class="py-3 px-4 text-xs">${safeDate}</td>
+          <td class="py-3 px-4 text-xs">
+            <p class="font-bold text-white">${safeName}</p>
+            <a href="https://wa.me/${cleanPhone}" target="_blank" class="text-emerald-400 hover:underline"><i class="fa-brands fa-whatsapp mr-1"></i>${safeWhatsapp}</a>
+          </td>
+          <td class="py-3 px-4 text-xs">
+            <p class="text-white">${safeHotel}</p>
+            <p class="text-slate-400 text-[11px]">Room: ${safeRoom}</p>
+          </td>
+          <td class="py-3 px-4 text-xs font-medium text-slate-200 max-w-[200px] truncate">${safeTourTitle}</td>
+          <td class="py-3 px-4 text-xs">
+            <span class="px-2 py-0.5 rounded text-[11px] font-bold ${b.paymentMethod === 'cash' ? 'bg-amber-950/80 text-amber-300 border border-amber-800' : 'bg-emerald-950/80 text-emerald-300 border border-emerald-800'}">
+              ${safePaymentMethod.toUpperCase()}
+            </span>
+          </td>
+          <td class="py-3 px-4 text-xs font-bold text-white">${safeTotalPrice}</td>
+          <td class="py-3 px-4 text-xs">
+            <button onclick="deleteBooking('${safeId}')" class="text-rose-400 hover:text-rose-300 p-1.5"><i class="fa-solid fa-trash"></i></button>
+          </td>
+        </tr>
+      `;
+    }).join('');
   }
 
   // Manage Tours Table
   const toursBody = document.getElementById('adminToursTableBody');
   toursBody.innerHTML = tours.map(t => `
     <tr class="hover:bg-slate-800 transition-colors">
-      <td class="py-3 px-4"><img src="${t.image}" class="w-12 h-10 object-cover rounded-lg"></td>
-      <td class="py-3 px-4 font-bold text-xs text-white max-w-[250px] truncate">${t.titles.en}</td>
-      <td class="py-3 px-4 text-xs capitalize text-slate-400">${t.category}</td>
-      <td class="py-3 px-4 text-xs font-bold text-brand-400">€${t.priceEUR}</td>
-      <td class="py-3 px-4 text-xs text-slate-400">${t.durationHours}h</td>
-      <td class="py-3 px-4 text-xs text-amber-400"><i class="fa-solid fa-star text-[10px]"></i> ${t.rating}</td>
+      <td class="py-3 px-4"><img src="${escapeHTML(t.image)}" class="w-12 h-10 object-cover rounded-lg"></td>
+      <td class="py-3 px-4 font-bold text-xs text-white max-w-[250px] truncate">${escapeHTML(t.titles.en)}</td>
+      <td class="py-3 px-4 text-xs capitalize text-slate-400">${escapeHTML(t.category)}</td>
+      <td class="py-3 px-4 text-xs font-bold text-brand-400">€${escapeHTML(t.priceEUR)}</td>
+      <td class="py-3 px-4 text-xs text-slate-400">${escapeHTML(t.durationHours)}h</td>
+      <td class="py-3 px-4 text-xs text-amber-400"><i class="fa-solid fa-star text-[10px]"></i> ${escapeHTML(t.rating)}</td>
       <td class="py-3 px-4 text-xs">
-        <button onclick="deleteTour('${t.id}')" class="text-rose-400 hover:text-rose-300 p-1.5"><i class="fa-solid fa-trash"></i></button>
+        <button onclick="deleteTour('${escapeHTML(t.id)}')" class="text-rose-400 hover:text-rose-300 p-1.5"><i class="fa-solid fa-trash"></i></button>
       </td>
     </tr>
   `).join('');
@@ -659,17 +736,47 @@ document.addEventListener('DOMContentLoaded', () => {
   // Checkout Form Submission
   document.getElementById('checkoutForm').addEventListener('submit', handleCheckoutSubmit);
 
-  // Admin Portal Toggle
-  document.getElementById('toggleAdminBtn').addEventListener('click', toggleAdminPortal);
-  document.getElementById('adminBackToSiteBtn').addEventListener('click', toggleAdminPortal);
+  // Admin Authentication & Navigation Listeners
+  const openAdminBtn = document.getElementById('openAdminAuthBtn');
+  if (openAdminBtn) {
+    openAdminBtn.addEventListener('click', openAdminAuthModal);
+  }
+
+  const adminAuthForm = document.getElementById('adminAuthForm');
+  if (adminAuthForm) {
+    adminAuthForm.addEventListener('submit', handleAdminAuthSubmit);
+  }
+
+  const closeAdminAuthBtn = document.getElementById('closeAdminAuthBtn');
+  if (closeAdminAuthBtn) {
+    closeAdminAuthBtn.addEventListener('click', closeAdminAuthModal);
+  }
+
+  const adminLogoutBtn = document.getElementById('adminLogoutBtn');
+  if (adminLogoutBtn) {
+    adminLogoutBtn.addEventListener('click', logoutAdmin);
+  }
+
+  const adminBackToSiteBtn = document.getElementById('adminBackToSiteBtn');
+  if (adminBackToSiteBtn) {
+    adminBackToSiteBtn.addEventListener('click', hideAdminDashboard);
+  }
 
   // Clear All Bookings in Admin
-  document.getElementById('clearBookingsBtn').addEventListener('click', () => {
-    if (confirm('Clear all bookings? This cannot be undone.')) {
-      bookings = [];
-      saveState();
-      renderAdminTables();
-      updateAdminStats();
-    }
-  });
+  const clearBookingsBtn = document.getElementById('clearBookingsBtn');
+  if (clearBookingsBtn) {
+    clearBookingsBtn.addEventListener('click', () => {
+      if (confirm('Clear all bookings? This cannot be undone.')) {
+        bookings = [];
+        saveState();
+        renderAdminTables();
+        updateAdminStats();
+      }
+    });
+  }
+
+  // Check URL hash for direct admin login (e.g. #admin)
+  if (window.location.hash === '#admin') {
+    openAdminAuthModal();
+  }
 });

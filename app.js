@@ -454,26 +454,74 @@ function openPolicyModal(type) {
   const textEl = document.getElementById('policyModalText');
 
   if (type === 'cancellation') {
-    titleEl.textContent = t('policyCancellationTitle');
+    titleEl.textContent = t('policyCancellationTitle') || "Cancellation & 100% Refund Policy";
     textEl.innerHTML = `
-      <p class="font-semibold text-slate-800">${t('policyCancellationText')}</p>
-      <ul class="list-disc pl-5 space-y-1 text-xs text-slate-500 pt-2">
-        <li>Free 100% cancellation up to 24 hours before pickup time.</li>
-        <li>No cancellation fee or deposit loss for Cash-on-Pickup bookings.</li>
-        <li>Full refund for adverse weather conditions or port authority restrictions.</li>
-      </ul>
+      <div class="space-y-4 text-xs text-slate-600 leading-relaxed">
+        <div class="bg-emerald-50 border border-emerald-200 p-3.5 rounded-2xl text-emerald-900 font-semibold flex items-center gap-2">
+          <i class="fa-solid fa-circle-check text-emerald-600 text-base"></i>
+          <span>100% Risk-Free Guarantee: Cancel up to 24 hours prior to departure with ZERO penalty.</span>
+        </div>
+        <div>
+          <h4 class="font-bold text-slate-800 text-sm mb-1">1. Cash-on-Pickup Flexibility</h4>
+          <p>For bookings confirmed with "Pay Cash on Pickup", you incur zero upfront charges. If your plans change, simply notify our 24/7 WhatsApp support at least 24 hours prior to your scheduled hotel pickup, and your seats will be released with zero fees.</p>
+        </div>
+        <div>
+          <h4 class="font-bold text-slate-800 text-sm mb-1">2. Unforeseen Weather & Port Authority Closures</h4>
+          <p>Safety is our #1 priority. If maritime authorities close Red Sea ports due to high winds, or if adverse desert conditions prevent safe quad riding, you will be offered: (a) immediate free rescheduling to the next available date, or (b) a 100% full refund.</p>
+        </div>
+        <div>
+          <h4 class="font-bold text-slate-800 text-sm mb-1">3. Medical Rescheduling</h4>
+          <p>Should any traveler fall ill while on vacation, contact our team with a hotel clinic or doctor note to reschedule your excursion free of charge.</p>
+        </div>
+      </div>
     `;
   } else if (type === 'terms') {
-    titleEl.textContent = t('policyTermsTitle');
+    titleEl.textContent = t('policyTermsTitle') || "Terms of Service & Passenger Safety";
     textEl.innerHTML = `
-      <p>By booking an excursion with Tourvanto, you agree to our standard international service terms.</p>
-      <p class="text-xs text-slate-500">All excursions are operated with licensed vehicles and certified guides. Guests are responsible for being at their hotel lobby at the agreed pickup time.</p>
+      <div class="space-y-4 text-xs text-slate-600 leading-relaxed">
+        <div class="bg-brand-50 border border-brand-200 p-3.5 rounded-2xl text-brand-900 font-semibold flex items-center gap-2">
+          <i class="fa-solid fa-shield-halved text-brand-600 text-base"></i>
+          <span>Licensed Tour Operators • 100% Insured Fleet • Certified Guides</span>
+        </div>
+        <div>
+          <h4 class="font-bold text-slate-800 text-sm mb-1">1. Pickup & Departure Protocol</h4>
+          <p>Guests must be present in the main hotel lobby/reception 10 minutes prior to the confirmed pickup time. Our operations coordinator sends the vehicle license plate, driver name, and exact timing via WhatsApp the evening before the activity.</p>
+        </div>
+        <div>
+          <h4 class="font-bold text-slate-800 text-sm mb-1">2. Inclusions & Price Transparency</h4>
+          <p>All prices quoted include government taxes, national park admission permits, professional guides, and amenities explicitly listed under "What's Included". There are never any surprise charges or forced shopping stops.</p>
+        </div>
+        <div>
+          <h4 class="font-bold text-slate-800 text-sm mb-1">3. Safety & Equipment Standards</h4>
+          <p>All marine vessels carry certified life jackets, first-aid kits, and VHF radios. Quad bikes and buggies undergo daily mechanical inspection. Life vests are mandatory for snorkeling and water activities.</p>
+        </div>
+        <div>
+          <h4 class="font-bold text-slate-800 text-sm mb-1">4. Luggage & Valuables</h4>
+          <p>Complimentary vehicle storage is provided during day tours. Marine yachts feature protected dry lockers. Guests are advised to keep high-value personal jewelry at their hotel room safe.</p>
+        </div>
+      </div>
     `;
   } else if (type === 'privacy') {
-    titleEl.textContent = t('policyPrivacyTitle');
+    titleEl.textContent = t('policyPrivacyTitle') || "Privacy Policy & GDPR Compliance";
     textEl.innerHTML = `
-      <p>We respect your privacy. Tourvanto collects only the essential booking information (Name, WhatsApp, Hotel & Room number) required to organize your pickup transfer and deliver your digital voucher.</p>
-      <p class="text-xs text-slate-500">Your details are never shared with third-party advertising platforms.</p>
+      <div class="space-y-4 text-xs text-slate-600 leading-relaxed">
+        <div class="bg-slate-50 border border-slate-200 p-3.5 rounded-2xl text-slate-800 font-semibold flex items-center gap-2">
+          <i class="fa-solid fa-lock text-brand-600 text-base"></i>
+          <span>Zero-Spam Policy: Your contact details are never shared with 3rd-party marketers.</span>
+        </div>
+        <div>
+          <h4 class="font-bold text-slate-800 text-sm mb-1">1. Information We Collect</h4>
+          <p>We collect only the bare logistical minimum required to execute your tour: Full Name, Hotel & Room number (for pickup clearance), and WhatsApp/Phone number (for voucher delivery and driver coordination).</p>
+        </div>
+        <div>
+          <h4 class="font-bold text-slate-800 text-sm mb-1">2. Data Security & Storage</h4>
+          <p>All booking sessions and communications are protected by 256-bit SSL/HTTPS encryption. Traveler records are strictly accessible by authorized dispatch coordinators.</p>
+        </div>
+        <div>
+          <h4 class="font-bold text-slate-800 text-sm mb-1">3. Traveler Rights & Deletion</h4>
+          <p>Under international privacy principles and GDPR, you have the right to request immediate deletion of your contact profile upon completing your vacation by emailing <a href="mailto:tourvantoofficial@gmail.com" class="text-brand-600 underline">tourvantoofficial@gmail.com</a>.</p>
+        </div>
+      </div>
     `;
   }
 

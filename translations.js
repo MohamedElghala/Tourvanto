@@ -6,8 +6,8 @@
 const translations = {
   en: {
     brandName: "Tourvanto",
-    tagline: "Explore More. Worry Less.",
-    subtagline: "Discover and book handpicked tours, desert safaris, sea trips, and VIP transfers with instant confirmation and flexible payment.",
+    tagline: "Discover Hidden Hurghada & Egypt's Wonders",
+    subtagline: "Uncover the secret gems of Hurghada, the Red Sea, Cairo, and Luxor with handpicked VIP excursions, instant confirmation, and cash on pickup.",
     searchPlaceholder: "Where are you going or what do you want to do?",
     searchBtn: "Search Tours",
     allCategories: "All Excursions",
@@ -125,8 +125,8 @@ const translations = {
 
   de: {
     brandName: "Tourvanto",
-    tagline: "Mehr entdecken. Sorgenfrei reisen.",
-    subtagline: "Entdecken und buchen Sie handverlesene Touren, Wüstensafaris, Bootsausflüge und VIP-Transfers mit Sofortbestätigung und flexibler Zahlung.",
+    tagline: "Entdecken Sie das verborgene Hurghada & Ägyptens Wunder",
+    subtagline: "Erleben Sie die geheimen Perlen von Hurghada, dem Roten Meer, Kairo und Luxor mit handverlesenen VIP-Touren und Barzahlung bei Abholung.",
     searchPlaceholder: "Wohin möchten Sie reisen oder was möchten Sie erleben?",
     searchBtn: "Touren suchen",
     allCategories: "Alle Ausflüge",
@@ -239,8 +239,8 @@ const translations = {
 
   ru: {
     brandName: "Tourvanto",
-    tagline: "Открывайте мир. Путешествуйте легко.",
-    subtagline: "Лучшие экскурсии, сафари в пустыне, морские прогулки и VIP-трансферы с мгновенным подтверждением и гибкой оплатой.",
+    tagline: "Откройте скрытую Хургаду и сокровища Египта",
+    subtagline: "Откройте для себя неизведанные жемчужины Хургады, Красного моря, Каира и Луксора с премиальными экскурсиями и оплатой при посадке.",
     searchPlaceholder: "Куда вы хотите поехать или что попробовать?",
     searchBtn: "Найти туры",
     allCategories: "Все экскурсии",
@@ -353,8 +353,8 @@ const translations = {
 
   fr: {
     brandName: "Tourvanto",
-    tagline: "Explorez plus. Voyagez l'esprit tranquille.",
-    subtagline: "Découvrez et réservez des excursions triées sur le volet, des safaris dans le désert, des croisières et des transferts VIP.",
+    tagline: "Découvrez Hurghada Secrète et les Merveilles d'Égypte",
+    subtagline: "Explorez les trésors cachés d'Hurghada, de la Mer Rouge, du Caire et de Louxor avec des excursions VIP et paiement à la prise en charge.",
     searchPlaceholder: "Où souhaitez-vous aller ou que voulez-vous faire ?",
     searchBtn: "Rechercher",
     allCategories: "Toutes les excursions",
@@ -467,8 +467,8 @@ const translations = {
 
   it: {
     brandName: "Tourvanto",
-    tagline: "Esplora di più. Viaggia senza pensieri.",
-    subtagline: "Scopri e prenota tour selezionati, safari nel deserto, gite in barca ed esclusive navette aeroportuali VIP.",
+    tagline: "Scopri l'Hurghada Segreta e le Meraviglie d'Egitto",
+    subtagline: "Esplora le gemme nascoste di Hurghada, del Mar Rosso, del Cairo e di Luxor con escursioni VIP e pagamento in contanti al prelievo.",
     searchPlaceholder: "Dove vuoi andare o cosa vuoi fare?",
     searchBtn: "Cerca Tour",
     allCategories: "Tutte le escursioni",

@@ -118,8 +118,8 @@ const translations = {
     footerAbout: "Tourvanto is your premier booking platform for day trips, desert excursions, Red Sea boat cruises, and luxury airport transfers.",
     quickLinks: "Quick Links",
     contactUs: "24/7 Traveler Support",
-    supportEmail: "support@tourvanto.com",
-    supportPhone: "+20 100 000 0000",
+    supportEmail: "tourvantoofficial@gmail.com",
+    supportPhone: "+20 11 2597 4666",
     rightsReserved: "All rights reserved. Tourvanto International Excursions."
   },
 
@@ -232,8 +232,8 @@ const translations = {
     footerAbout: "Tourvanto ist Ihre erstklassige Buchungsplattform für Tagesausflüge, Wüstensafaris, Rote-Meer-Kreuzfahrten und VIP-Flughafentransfers.",
     quickLinks: "Schnelllinks",
     contactUs: "24/7 Reise-Support",
-    supportEmail: "support@tourvanto.com",
-    supportPhone: "+20 100 000 0000",
+    supportEmail: "tourvantoofficial@gmail.com",
+    supportPhone: "+20 11 2597 4666",
     rightsReserved: "Alle Rechte vorbehalten. Tourvanto International Excursions."
   },
 
@@ -346,8 +346,8 @@ const translations = {
     footerAbout: "Tourvanto — ваша надежная международная платформа для бронирования экскурсий, сафари, яхт и трансферов.",
     quickLinks: "Быстрые ссылки",
     contactUs: "Круглосуточная поддержка 24/7",
-    supportEmail: "support@tourvanto.com",
-    supportPhone: "+20 100 000 0000",
+    supportEmail: "tourvantoofficial@gmail.com",
+    supportPhone: "+20 11 2597 4666",
     rightsReserved: "Все права защищены. Tourvanto International Excursions."
   },
 
@@ -460,8 +460,8 @@ const translations = {
     footerAbout: "Tourvanto est votre plateforme d'excursions haut de gamme pour les safaris, croisières et transferts aéroport.",
     quickLinks: "Liens utiles",
     contactUs: "Assistance voyageurs 24/7",
-    supportEmail: "support@tourvanto.com",
-    supportPhone: "+20 100 000 0000",
+    supportEmail: "tourvantoofficial@gmail.com",
+    supportPhone: "+20 11 2597 4666",
     rightsReserved: "Tous droits réservés. Tourvanto International Excursions."
   },
 
@@ -574,8 +574,8 @@ const translations = {
     footerAbout: "Tourvanto è la tua piattaforma internazionale per escursioni nel deserto, crociere sul Mar Rosso e transfer privati.",
     quickLinks: "Link rapidi",
     contactUs: "Supporto viaggiatori 24/7",
-    supportEmail: "support@tourvanto.com",
-    supportPhone: "+20 100 000 0000",
+    supportEmail: "tourvantoofficial@gmail.com",
+    supportPhone: "+20 11 2597 4666",
     rightsReserved: "Tutti i diritti riservati. Tourvanto International Excursions."
   }
 };

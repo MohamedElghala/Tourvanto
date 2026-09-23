@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tourvanto - Premier International Tours & Excursions</title>
+  <link rel="icon" type="image/jpeg" href="tourvanto_profile_logo.jpg" />
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- FontAwesome Icons -->
@@ -91,9 +92,7 @@
       
       <!-- Brand Logo -->
       <a href="#" class="flex items-center gap-3 group">
-        <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-brand-600 to-accent-500 flex items-center justify-center text-white shadow-lg shadow-brand-500/30 group-hover:rotate-12 transition-transform duration-300">
-          <i class="fa-solid fa-compass text-2xl"></i>
-        </div>
+        <img src="tourvanto_profile_logo.jpg" alt="Tourvanto Logo" class="w-11 h-11 rounded-full object-cover border-2 border-brand-400 shadow-lg shadow-brand-500/20 group-hover:scale-105 transition-transform duration-300">
         <div>
           <span class="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-300 bg-clip-text text-transparent">Tourvanto</span>
           <span class="block text-[10px] uppercase tracking-widest text-brand-400 font-semibold">Excursions & Transfers</span>
@@ -610,19 +609,17 @@
       <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
         <div class="space-y-4 md:col-span-2">
           <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-xl bg-brand-500 flex items-center justify-center text-white">
-              <i class="fa-solid fa-compass text-xl"></i>
-            </div>
+            <img src="tourvanto_profile_logo.jpg" alt="Tourvanto Logo" class="w-10 h-10 rounded-full object-cover border border-brand-400">
             <span class="text-2xl font-bold text-white tracking-tight">Tourvanto</span>
           </div>
           <p class="text-sm leading-relaxed max-w-md" data-i18n="footerAbout">
             Tourvanto is your premier booking platform for day trips, desert excursions, Red Sea boat cruises, and luxury airport transfers.
           </p>
           <div class="flex items-center gap-4 text-slate-400 text-lg">
-            <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-facebook"></i></a>
-            <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-instagram"></i></a>
-            <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-tripadvisor"></i></a>
-            <a href="https://wa.me/201000000000" target="_blank" class="hover:text-emerald-400 transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="https://www.instagram.com/tourvanto.tours/" target="_blank" rel="noopener noreferrer" title="Instagram" class="hover:text-pink-400 transition-colors"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://www.tiktok.com/@tourvanto.tours" target="_blank" rel="noopener noreferrer" title="TikTok" class="hover:text-white transition-colors"><i class="fa-brands fa-tiktok"></i></a>
+            <a href="https://wa.me/201125974666" target="_blank" rel="noopener noreferrer" title="WhatsApp" class="hover:text-emerald-400 transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="mailto:tourvantoofficial@gmail.com" title="Email" class="hover:text-brand-400 transition-colors"><i class="fa-solid fa-envelope"></i></a>
           </div>
         </div>
 
@@ -639,8 +636,8 @@
 
         <div>
           <h4 class="text-white text-sm font-bold uppercase tracking-wider mb-4" data-i18n="contactUs">24/7 Traveler Support</h4>
-          <p class="text-sm mb-2"><i class="fa-solid fa-envelope mr-2 text-brand-400"></i> support@tourvanto.com</p>
-          <p class="text-sm mb-2"><i class="fa-brands fa-whatsapp mr-2 text-emerald-400"></i> +20 100 000 0000</p>
+          <p class="text-sm mb-2"><a href="mailto:tourvantoofficial@gmail.com" class="hover:text-brand-400 transition-colors"><i class="fa-solid fa-envelope mr-2 text-brand-400"></i> tourvantoofficial@gmail.com</a></p>
+          <p class="text-sm mb-2"><a href="https://wa.me/201125974666" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors"><i class="fa-brands fa-whatsapp mr-2 text-emerald-400"></i> +20 11 2597 4666</a></p>
           <p class="text-xs text-slate-500 mt-4">English &bull; Deutsch &bull; Русский &bull; Français &bull; Italiano</p>
         </div>
       </div>
@@ -1165,6 +1162,15 @@
 
     </div>
   </div>
+
+  <!-- Floating WhatsApp Quick-Chat Button -->
+  <a href="https://wa.me/201125974666?text=Hello%20Tourvanto!%20I%20would%20like%20to%20inquire%20about%20your%20excursions." target="_blank" rel="noopener noreferrer" class="fixed bottom-6 right-6 z-40 bg-emerald-500 hover:bg-emerald-600 text-white w-14 h-14 rounded-full flex items-center justify-center text-2xl shadow-2xl shadow-emerald-500/40 hover:scale-110 transition-all duration-300 group" title="Chat on WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+    <span class="absolute -top-1 -right-1 flex h-4 w-4">
+      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+      <span class="relative inline-flex rounded-full h-4 w-4 bg-emerald-600"></span>
+    </span>
+  </a>
 
   <!-- Scripts -->
   <script src="db-config.js"></script>

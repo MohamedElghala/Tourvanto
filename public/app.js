@@ -179,7 +179,7 @@ function openTourDetails(tourId) {
 
   // WhatsApp pre-filled inquiry text
   const waText = encodeURIComponent(t('whatsappMsgTemplate') + `"${title}" (${priceFormatted})`);
-  const waUrl = `https://wa.me/201000000000?text=${waText}`;
+  const waUrl = `https://wa.me/201125974666?text=${waText}`;
 
   const container = document.getElementById('tourDetailsBody');
   container.innerHTML = `
@@ -442,7 +442,7 @@ function initSmartTourBuilder() {
     priceDisplay.textContent = formatted;
 
     const waMsg = encodeURIComponent(`Hello Tourvanto VIP! I would like to book a tailor-made excursion: "${expName}" for ${guests} guests. Estimated VIP price: ${formatted}. Please send the private itinerary.`);
-    waLink.href = `https://wa.me/201000000000?text=${waMsg}`;
+    waLink.href = `https://wa.me/201125974666?text=${waMsg}`;
 
     resultBox.classList.remove('hidden');
   });
